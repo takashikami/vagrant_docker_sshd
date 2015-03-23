@@ -1,3 +1,23 @@
+v_ = `vagrant ssh-config`.split(/\n\n/).map do |entry|
+  entry.split("\n").map{|ele|ele.gsub(/^  /,"").split(' ')}.flatten
+end.map{|entry|Hash[*entry]}
+vhost = {};v_.each{|e|vhost[e['Host']]=e['HostName']}
+
+role :demo, [vhost['sshd01'], vhost['sshd02'], vhost['sshd03']]
+task :uptime do
+  on roles(:demo), in: :parallel do |host|
+    uptime = capture(:uptime)
+    puts "#{host.hostname} reports: #{uptime}"
+  end
+end
+
+set :ssh_options, {
+  user: 'root',
+  keys: %w(ssh/id_rsa),
+  forward_agent: false,
+  auth_methods: %w(publickey)
+}
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
