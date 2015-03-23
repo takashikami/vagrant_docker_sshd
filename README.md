@@ -24,3 +24,21 @@ vagrant up --provider=docker
 ```
 bundle exec cap production uptime
 ```
+
+## vagrant halt
+
+```
+vagrant halt
+```
+
+## vagrant up again
+
+```
+vagrant up
+```
+
+## vagrant destroy
+
+```
+vagrant destroy -f
+```
