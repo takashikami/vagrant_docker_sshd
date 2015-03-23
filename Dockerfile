@@ -23,6 +23,7 @@ RUN echo 'root:tulip' | chpasswd
 
 RUN sed -ri 's/^#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -ri 's/^UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
+RUN echo "UseDNS no" >> /etc/ssh/sshd_config
 
 # SSH login fix. Otherwise user is kicked off after login
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
