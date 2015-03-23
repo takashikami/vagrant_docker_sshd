@@ -19,7 +19,8 @@ RUN yum install -y openssh-server
 RUN /etc/init.d/sshd start
 RUN /etc/init.d/sshd stop
 RUN mkdir -p /var/run/sshd
-RUN echo 'root:tulip' | chpasswd
+#RUN echo 'root:xxxxxxxx' | chpasswd
+RUN echo 'root:'$(dd if=/dev/urandom bs=1 count=9 2>/dev/null | base64) | chpasswd
 
 RUN sed -ri 's/^#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -ri 's/^UsePAM yes/UsePAM no/' /etc/ssh/sshd_config

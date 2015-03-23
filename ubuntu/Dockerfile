@@ -11,7 +11,8 @@ ENV ftp_proxy ftp://172.16.80.83:8021/
 
 RUN apt-get update && apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
-RUN echo 'root:tulip' | chpasswd
+#RUN echo 'root:xxxxxxxx' | chpasswd
+RUN echo 'root:'$(dd if=/dev/urandom bs=1 count=9 2>/dev/null | base64) | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN echo "UseDNS no" >> /etc/ssh/sshd_config
 
