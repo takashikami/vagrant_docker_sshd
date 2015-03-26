@@ -15,7 +15,7 @@ RUN sed -i \
     -e 's~#baseurl=http://mirror.centos.org/~baseurl=http://ftp.riken.jp/Linux/~' \
     /etc/yum.repos.d/*.repo
 
-RUN yum install -y openssh-server initscripts
+RUN yum install -y openssh-server openssh-clients initscripts tar
 RUN sshd-keygen
 
 RUN sed -ri 's/^#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config

@@ -3,7 +3,27 @@ v_ = `vagrant ssh-config`.split(/\n\n/).map do |entry|
 end.map{|entry|Hash[*entry]}
 vhost = {};v_.each{|e|vhost[e['Host']]=e['HostName']}
 
+role :java, [vhost['sshd01']]
+role :none, [vhost['sshd02'], vhost['sshd03']]
 role :demo, [vhost['sshd01'], vhost['sshd02'], vhost['sshd03']]
+
+task :uploadjava do
+  on roles(:demo), in: :parallel do |host|
+    file,path = 'jdk-7u75-linux-x64.tar.gz', '/opt/javax'
+    execute "mkdir -p #{path}"
+    upload! "jdk/#{file}", path
+    #upload! "Gemfile", path
+    execute "tar xf #{path}/#{file} -C #{path}"
+  end
+end
+
+task :javaversion do
+  on roles(:java), in: :parallel do |host|
+    uptime = capture('java -version')
+    puts "#{host.hostname} reports: #{uptime}"
+  end
+end
+
 task :uptime do
   on roles(:demo), in: :parallel do |host|
     uptime = capture(:uptime)
