@@ -8,16 +8,15 @@ role :none, [vhost['sshd02'], vhost['sshd03']]
 role :demo, [vhost['sshd01'], vhost['sshd02'], vhost['sshd03']]
 
 task :uploadjava do
-  on roles(:demo), in: :parallel do |host|
-    file,path = 'jdk-7u75-linux-x64.tar.gz', '/opt/javax'
+  on roles(:none), in: :parallel do |host|
+    file,path = 'jdk-7u75-linux-x64.tar.gz', '/opt/java'
     execute "mkdir -p #{path}"
     upload! "jdk/#{file}", path
-    #upload! "Gemfile", path
     execute "tar xf #{path}/#{file} -C #{path}"
   end
 end
 
-task :javaversion do
+task :javaversion => :uploadjava do
   on roles(:java), in: :parallel do |host|
     uptime = capture('java -version')
     puts "#{host.hostname} reports: #{uptime}"
@@ -37,6 +36,8 @@ set :ssh_options, {
   forward_agent: false,
   auth_methods: %w(publickey)
 }
+
+set :log_level, :info
 
 # server-based syntax
 # ======================
