@@ -1,0 +1,4 @@
+source "https://supermarket.chef.io"
+
+cookbook "rbenv-install-rubies"
+cookbook "td-agent"

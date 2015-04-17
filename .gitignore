@@ -3,3 +3,6 @@
 /.bundle/
 /vendor/
 ssh/
+/chef-repo/cookbooks/
+/chef-repo/nodes/
+/chef-repo/clients/
