@@ -8,25 +8,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.username = "root"
   config.ssh.private_key_path = "./ssh/id_rsa"
 
-  config.vm.define "sshd01" do |v|
-    v.vm.provider "docker" do |d|
-      d.build_dir = "."
-      d.has_ssh = true
-      #d.ports = ["22"]
-    end
-  end
-  config.vm.define "sshd02" do |v|
-    v.vm.provider "docker" do |d|
-      d.build_dir = "./centos7"
-      d.has_ssh = true
-      #d.ports = ["22"]
-    end
-  end
-  config.vm.define "sshd03" do |v|
-    v.vm.provider "docker" do |d|
-      d.build_dir = "./ubuntu"
-      d.has_ssh = true
-      #d.ports = ["22"]
+  { 'db1'=>'centos7',
+    'web1'=>'centos6',
+    'web2'=>'centos6'
+  }.each do |name,os|
+    config.vm.define name do |v|
+      v.vm.hostname = name
+      v.vm.provider "docker" do |d|
+        d.build_dir = "./docker/#{os}"
+        d.has_ssh = true
+      end
     end
   end
 end
