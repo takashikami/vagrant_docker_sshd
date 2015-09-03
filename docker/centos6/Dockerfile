@@ -2,7 +2,7 @@
 #
 # VERSION               0.0.2
 
-FROM centos:6
+FROM centos:6.6
 MAINTAINER Sven Dowideit <SvenDowideit@docker.com>
 
 ENV http_proxy http://172.16.80.83:10080/

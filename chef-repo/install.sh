@@ -5,8 +5,8 @@ for f in $h; do
 done
 
 bundle exec knife node list
-#bundle exec knife cookbook create httpd -o ./cookbooks/
-#bundle exec berks vendor cookbooks
+bundle exec knife cookbook create httpd -o ./cookbooks/
+bundle exec berks vendor cookbooks
 
 bundle exec knife node run_list add db1 role[ruby]
 bundle exec knife node run_list add web1 httpd
