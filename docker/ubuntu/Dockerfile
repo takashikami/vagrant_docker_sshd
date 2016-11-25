@@ -5,9 +5,8 @@
 FROM ubuntu:14.04
 MAINTAINER Sven Dowideit <SvenDowideit@docker.com>
 
-ENV http_proxy http://172.16.80.83:10080/
-ENV https_proxy https://172.16.80.83:10080/
-ENV ftp_proxy ftp://172.16.80.83:8021/
+ENV http_proxy http://10.208.0.10:8080/
+ENV https_proxy https://10.208.0.10:8080/
 
 RUN apt-get update && apt-get install -y openssh-server
 RUN mkdir /var/run/sshd

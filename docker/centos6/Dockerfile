@@ -2,12 +2,11 @@
 #
 # VERSION               0.0.2
 
-FROM centos:6.6
+FROM centos:6.8
 MAINTAINER Sven Dowideit <SvenDowideit@docker.com>
 
-ENV http_proxy http://172.16.80.83:10080/
-ENV https_proxy https://172.16.80.83:10080/
-ENV ftp_proxy ftp://172.16.80.83:8021/
+ENV http_proxy http://10.208.0.10:8080/
+ENV https_proxy https://10.208.0.10:8080/
 
 RUN sed -i 's/^enabled=1$/enabled=0/' /etc/yum/pluginconf.d/fastestmirror.conf
 RUN sed -i \
@@ -31,8 +30,10 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 
 RUN mkdir -p /root/.ssh
 ADD ssh/id_rsa.pub /root/.ssh/authorized_keys
+ADD ssh/id_rsa.pub /root/.ssh/id_rsa.pub
+ADD ssh/id_rsa /root/.ssh/id_rsa
 RUN chmod 700 /root/.ssh
-RUN chmod 600 /root/.ssh/authorized_keys
+RUN chmod 600 /root/.ssh/id_rsa
 
 #ENV NOTVISIBLE "in users profile"
 #RUN echo "export VISIBLE=now" >> /etc/profile
